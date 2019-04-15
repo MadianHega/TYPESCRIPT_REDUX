@@ -4,10 +4,12 @@ import { ADD_TODO } from '../store/constants/todoActionTypes'
 import { Todo, TodoActionTypes } from '../store/types'
 import TodoItem from '../Components/TodoItem';
 import Input from '../Components/Input'
+import { addTodo } from '../store/reducers/todoList/actions'
+import { bindActionCreators } from 'redux';
 
 interface Props {
  todoList: Todo[]
- dispatch: (action: any) => void
+ addTodo: (action: any) => void
 }
 interface State{
   textInput: string
@@ -31,8 +33,7 @@ class Main extends Component<Props, State> {
   }
 
   validTodo = () => {
-    const action = { type: ADD_TODO, value: this.state.textInput }
-    this.props.dispatch(action)
+    this.props.addTodo(this.state.textInput)
   }
 
   render() {
@@ -59,4 +60,8 @@ class Main extends Component<Props, State> {
 const mapStateToProps = (state: any) => {
   return {todoList: state.todoList}
 }
-export default connect(mapStateToProps)(Main)
+const mapDispatchToProps = (dispatch: any) => {
+  return bindActionCreators({ addTodo }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
