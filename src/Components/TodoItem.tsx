@@ -1,40 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Todo } from '../store/types'
 import '../App.css'
 
 interface Props {
  todo: Todo
- deleteTodo: (id: number) => void
+ removeTodo: (id: number) => void
  validTodo: () => void
+ updateTodo: (value: string, id: number) => void
 }
 
 interface State{
-  
+  edit: boolean
+  title: string
 }
 
 
-export default class TodoItem extends Component<Props, State> {
+export default class TodoItem extends React.Component<Props, State> {
  
   constructor(props: Props) {
     super(props)
-    
+    // this.state = { edit: false, title: '' }
+  }
+
+  componentDidMount = () => {
+    this.setState({ title: this.props.todo.title })
+  }
+
+  updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    this.props.updateTodo(e.target.value, this.props.todo.id)
   }
 
   render() {
     const { 
-      todo: { title , id, completed },
-      deleteTodo, 
-      validTodo
+      todo: { id, completed, title },
+      removeTodo, 
     } = this.props
 
     return (
       <div className="containerItem">
-       <input type="checkbox" className="checkbox"/> 
-       <p>{title}</p>
-       <button className="btn-valid" onClick={() => validTodo()}>V</button>
-       <button className="btn-delete" onClick={() => deleteTodo(id)}>X</button>
+        <input type="checkbox" className="checkbox"/> 
+        <input type="text" onChange={this.updateTitle} value={title} />
+        <button className="btn-delete" onClick={() => removeTodo(id)}>X</button>
       </div>
-    );
+    )
   }
 }
 

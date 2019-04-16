@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { ADD_TODO } from '../store/constants/todoActionTypes'
-import { Todo, TodoActionTypes } from '../store/types'
+import { Todo } from '../store/types'
 import TodoItem from '../Components/TodoItem';
 import Input from '../Components/Input'
-import { addTodo } from '../store/reducers/todoList/actions'
+import { addTodo, removeTodo, updateTodo } from '../store/reducers/todoList/actions'
 import { bindActionCreators } from 'redux';
 
 interface Props {
  todoList: Todo[]
- addTodo: (action: any) => void
+ addTodo: (value: string) => void
+ removeTodo: (id: number) => void
+ updateTodo:(value: string, id: number) => void
 }
 interface State{
   textInput: string
@@ -23,33 +24,41 @@ class Main extends Component<Props, State> {
 
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
-    console.log(e.target.value)
     let nextState = e.target.value
     this.setState({ textInput: nextState })
   }
   
-  deleteTodo = () => {
-
+  updateTodo = (value: string, id: number) => {
+   this.props.updateTodo(value, id)
+  }
+  
+  removeTodo = (id: number) => {
+    this.props.removeTodo(id)
   }
 
   validTodo = () => {
-    this.props.addTodo(this.state.textInput)
+    if(this.state.textInput.length > 0) {
+      this.props.addTodo(this.state.textInput)
+      this.setState({textInput: ''})
+    } 
   }
 
   render() {
     const { todoList } = this.props
+    const { textInput } = this.state
     const todoItemList = todoList.map(i => <TodoItem 
       key={i.id} 
       todo={i} 
       validTodo={this.validTodo} 
-      deleteTodo={this.deleteTodo} 
+      removeTodo={this.removeTodo} 
+      updateTodo={this. updateTodo}
     />)
    
     console.log("redux", this.props.todoList)
     return (
       <div className="">
         <div>
-         <Input handleChange={this.handleChange} />
+         <Input handleChange={this.handleChange} value={textInput} />
          <button className="btn-valid" onClick={() => this.validTodo()}>V</button>
         </div>
         {todoItemList}
@@ -61,7 +70,7 @@ const mapStateToProps = (state: any) => {
   return {todoList: state.todoList}
 }
 const mapDispatchToProps = (dispatch: any) => {
-  return bindActionCreators({ addTodo }, dispatch);
+  return bindActionCreators({ addTodo, removeTodo, updateTodo }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)
