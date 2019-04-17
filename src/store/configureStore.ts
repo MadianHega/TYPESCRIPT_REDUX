@@ -1,4 +1,6 @@
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import todoListReducer from './reducers/todoList/todoListReducer'
+import filtersReducer from './reducers/filters/filtersReducer'
 
-export default createStore(todoListReducer)
+const reducer = combineReducers({ todoListReducer, filtersReducer })
+export default createStore(reducer)

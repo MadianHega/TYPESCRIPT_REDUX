@@ -6,17 +6,9 @@ interface Props {
  value: string
 }
 
-
-interface State{
-  
-}
-
-
-export default class Input extends Component<Props, State> {
- 
+export default class Input extends Component<Props> {
   constructor(props: Props) {
     super(props)
-    
    }
 
   render() {

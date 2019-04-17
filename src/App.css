@@ -1,3 +1,17 @@
+.main-container {
+  display: column;
+  align-items: center;
+}
+.main-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+input {
+  width: 50vw;
+  height: 20px;
+}
 .containerItem {
   display: flex;
   align-items: center;
@@ -6,6 +20,12 @@
 .checkbox {
   width: 15px;
   height: 15px;
+  margin: 0px 20px;
+}
+.btn-valid {
+  width: 15px;
+  height: 20px;
+  background-color: white;
   margin: 0px 20px;
 }
 .btn-delete {

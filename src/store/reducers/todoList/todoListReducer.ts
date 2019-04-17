@@ -3,9 +3,9 @@ import { idGenerator } from '../../confs/confs'
 import {
     ADD_TODO, 
     REMOVE_TODO,
-    UPDATE_TODO,
-    ALL_COMPLETED,
-    CLEAR_COMPLETED } from '../../constants/todoActionTypes'
+	UPDATE_TODO,
+	CHECK_TODO,
+} from '../../constants/todoActionTypes'
 
 export interface TodoListState {
 	todoList: Todo[]
@@ -31,7 +31,11 @@ export default function todoListReducer(
 			case UPDATE_TODO:	
 				return { todoList: state.todoList.map(t => t.id == action.id 
 					? {...t, title: action.value} 
-					: t) }	
+					: t) }
+			case CHECK_TODO:
+				return { todoList: state.todoList.map(t => t.id == action.value
+					? {...t, completed: !t.completed} 
+					: t) }			
 			default:
 				return state 
 		}

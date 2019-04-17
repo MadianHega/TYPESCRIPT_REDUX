@@ -3,14 +3,16 @@ import { connect } from 'react-redux'
 import { Todo } from '../store/types'
 import TodoItem from '../Components/TodoItem';
 import Input from '../Components/Input'
-import { addTodo, removeTodo, updateTodo } from '../store/reducers/todoList/actions'
+import { addTodo, removeTodo, updateTodo, checkTodo } from '../store/reducers/todoList/actions'
 import { bindActionCreators } from 'redux';
 
 interface Props {
  todoList: Todo[]
+ filter: string
  addTodo: (value: string) => void
  removeTodo: (id: number) => void
  updateTodo:(value: string, id: number) => void
+ checkTodo: (id: number) => void
 }
 interface State{
   textInput: string
@@ -43,6 +45,10 @@ class Main extends Component<Props, State> {
     } 
   }
 
+  checkTodo = (id: number) => {
+    this.props.checkTodo(id)
+  }
+
   render() {
     const { todoList } = this.props
     const { textInput } = this.state
@@ -52,14 +58,15 @@ class Main extends Component<Props, State> {
       validTodo={this.validTodo} 
       removeTodo={this.removeTodo} 
       updateTodo={this. updateTodo}
+      checkTodo={this.checkTodo}
     />)
    
     console.log("redux", this.props.todoList)
     return (
-      <div className="">
-        <div>
-         <Input handleChange={this.handleChange} value={textInput} />
-         <button className="btn-valid" onClick={() => this.validTodo()}>V</button>
+      <div className="main-container">
+        <div className="main-input">
+          <Input handleChange={this.handleChange} value={textInput} />
+          <button className="btn-valid" onClick={() => this.validTodo()}>V</button>
         </div>
         {todoItemList}
       </div>
@@ -67,10 +74,14 @@ class Main extends Component<Props, State> {
   }
 }
 const mapStateToProps = (state: any) => {
-  return {todoList: state.todoList}
+  return {
+    todoList: state.todoListReducer.todoList, 
+    filter: state.filtersReducer.filter
+  }
+  
 }
 const mapDispatchToProps = (dispatch: any) => {
-  return bindActionCreators({ addTodo, removeTodo, updateTodo }, dispatch);
+  return bindActionCreators({ addTodo, removeTodo, updateTodo, checkTodo }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)

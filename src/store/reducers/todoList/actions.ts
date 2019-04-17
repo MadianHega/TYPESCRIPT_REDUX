@@ -2,9 +2,9 @@ import {
     ADD_TODO, 
     REMOVE_TODO,
     UPDATE_TODO,
-    ALL_COMPLETED,
-    CLEAR_COMPLETED } from '../../constants/todoActionTypes'
-import {Todo, AddTodoAction, RemoveTodoAction, updateTodoAction} from '../../types';
+    CHECK_TODO,
+ } from '../../constants/todoActionTypes'
+import {AddTodoAction, RemoveTodoAction, UpdateTodoAction, CheckTodoAction} from '../../types';
 
  
     export const addTodo = (text: string): AddTodoAction => {
@@ -15,6 +15,10 @@ import {Todo, AddTodoAction, RemoveTodoAction, updateTodoAction} from '../../typ
         return { type: REMOVE_TODO, value: id }
     }
 
-    export const updateTodo = (text: string, id: number): updateTodoAction => {
+    export const updateTodo = (text: string, id: number): UpdateTodoAction => {
         return { type: UPDATE_TODO, value: text, id: id }
+    }
+    
+    export const checkTodo = (id: number): CheckTodoAction => {
+        return { type: CHECK_TODO, value: id}
     }

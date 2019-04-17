@@ -7,38 +7,38 @@ interface Props {
  removeTodo: (id: number) => void
  validTodo: () => void
  updateTodo: (value: string, id: number) => void
+ checkTodo: (id: number) => void
 }
-
-interface State{
-  edit: boolean
-  title: string
+interface State {
+  checked: boolean
 }
-
-
 export default class TodoItem extends React.Component<Props, State> {
- 
   constructor(props: Props) {
     super(props)
-    // this.state = { edit: false, title: '' }
+    this.state = {checked: false}
   }
 
-  componentDidMount = () => {
-    this.setState({ title: this.props.todo.title })
-  }
-
+  
   updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.updateTodo(e.target.value, this.props.todo.id)
   }
+
+  test = () => {
+    this.setState({checked: !this.state.checked})
+  }
+
 
   render() {
     const { 
       todo: { id, completed, title },
       removeTodo, 
+      checkTodo
     } = this.props
 
+    console.log("check", completed)
     return (
       <div className="containerItem">
-        <input type="checkbox" className="checkbox"/> 
+        <input type="checkbox" className="checkbox" checked={completed} onChange={() => checkTodo(id)} /> 
         <input type="text" onChange={this.updateTitle} value={title} />
         <button className="btn-delete" onClick={() => removeTodo(id)}>X</button>
       </div>

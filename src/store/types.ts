@@ -2,8 +2,14 @@ import {
   ADD_TODO, 
   REMOVE_TODO,
   UPDATE_TODO,
-  ALL_COMPLETED,
-  CLEAR_COMPLETED } from './constants/todoActionTypes'
+  CHECK_TODO,
+} from './constants/todoActionTypes'
+
+import {
+  SHOW_ALL, 
+  SHOW_COMPLETED,
+  SHOW_ACTIVE,
+} from './constants/filtersActionTypes'
 
 export interface Todo {
     id: number
@@ -21,12 +27,28 @@ export interface RemoveTodoAction {
     value: number
 }
 
-export interface updateTodoAction {
+export interface UpdateTodoAction {
   type: typeof UPDATE_TODO
   id: number
   value: string
 }
+export interface CheckTodoAction {
+  type: typeof CHECK_TODO
+  value: number
+}
   
-export type TodoActionTypes = AddTodoAction | RemoveTodoAction | updateTodoAction
+export type TodoActionTypes = AddTodoAction | RemoveTodoAction | UpdateTodoAction | CheckTodoAction
 
-  
+export interface ShowAllAction {
+  type: typeof SHOW_ALL
+}
+
+export interface ShowCompletedAction {
+  type: typeof SHOW_COMPLETED
+}
+
+export interface ShowActiveTodoAction {
+  type: typeof SHOW_ACTIVE
+}
+
+export type FilterActionTypes = ShowAllAction | ShowCompletedAction | ShowActiveTodoAction
