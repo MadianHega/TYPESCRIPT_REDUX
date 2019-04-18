@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import Main from './Main.tsx'
 import { Provider } from 'react-redux'
 import Store from '../store/configureStore'
+import Main from './Main.tsx'
 
 class App extends Component {
   render() {

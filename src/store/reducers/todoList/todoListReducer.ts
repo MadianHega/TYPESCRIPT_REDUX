@@ -1,4 +1,4 @@
-import { Todo, TodoActionTypes,  } from '../../types'
+import { TodoActionTypes, TodoListState } from '../../types'
 import { idGenerator } from '../../confs/confs'
 import {
     ADD_TODO, 
@@ -7,9 +7,6 @@ import {
 	CHECK_TODO,
 } from '../../constants/todoActionTypes'
 
-export interface TodoListState {
-	todoList: Todo[]
-}
 const initialState: TodoListState  = { todoList: [] }
   
 export default function todoListReducer(

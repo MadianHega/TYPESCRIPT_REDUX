@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { Todo } from '../store/types'
-import TodoItem from '../Components/TodoItem';
+import TodoItem from '../Components/TodoItem'
 import Input from '../Components/Input'
+import Navbar from '../Components/Navbar'
 import { addTodo, removeTodo, updateTodo, checkTodo } from '../store/reducers/todoList/actions'
-import { bindActionCreators } from 'redux';
+import { showAll, showCompleted, showActive } from '../store/reducers/filters/actions'
+import { getVisibleTodos} from '../store/selectors/index'
+
+
 
 interface Props {
  todoList: Todo[]
@@ -13,6 +18,9 @@ interface Props {
  removeTodo: (id: number) => void
  updateTodo:(value: string, id: number) => void
  checkTodo: (id: number) => void
+ showAll: () => void
+ showCompleted: () => void
+ showActive: () => void
 }
 interface State{
   textInput: string
@@ -49,6 +57,17 @@ class Main extends Component<Props, State> {
     this.props.checkTodo(id)
   }
 
+  showAll = () => {
+    this.props.showAll()
+  }
+  showCompleted = () => {
+    this.props.showCompleted()
+  }
+  
+  showActive = () => {
+    this.props.showActive()
+  }
+
   render() {
     const { todoList } = this.props
     const { textInput } = this.state
@@ -61,9 +80,13 @@ class Main extends Component<Props, State> {
       checkTodo={this.checkTodo}
     />)
    
-    console.log("redux", this.props.todoList)
     return (
       <div className="main-container">
+        <Navbar 
+          showAll={this.showAll} 
+          showCompleted={this.showCompleted} 
+          showActive={this.showActive} 
+        />
         <div className="main-input">
           <Input handleChange={this.handleChange} value={textInput} />
           <button className="btn-valid" onClick={() => this.validTodo()}>V</button>
@@ -73,15 +96,20 @@ class Main extends Component<Props, State> {
     );
   }
 }
+
 const mapStateToProps = (state: any) => {
-  return {
-    todoList: state.todoListReducer.todoList, 
-    filter: state.filtersReducer.filter
-  }
-  
+  return { todoList: getVisibleTodos(state) }
 }
+
 const mapDispatchToProps = (dispatch: any) => {
-  return bindActionCreators({ addTodo, removeTodo, updateTodo, checkTodo }, dispatch);
+  return bindActionCreators({ 
+    addTodo,
+    removeTodo, 
+    updateTodo, 
+    checkTodo,
+    showAll,
+    showCompleted, 
+    showActive }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)

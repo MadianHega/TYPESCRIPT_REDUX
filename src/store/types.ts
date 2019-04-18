@@ -36,6 +36,10 @@ export interface CheckTodoAction {
   type: typeof CHECK_TODO
   value: number
 }
+
+export interface TodoListState {
+	todoList: Todo[]
+}
   
 export type TodoActionTypes = AddTodoAction | RemoveTodoAction | UpdateTodoAction | CheckTodoAction
 

@@ -3,7 +3,6 @@ import {
 	SHOW_COMPLETED,
 	SHOW_ACTIVE,
 } from '../../constants/filtersActionTypes'
-
 import { FilterActionTypes } from '../../types'
 
 interface FiltersState  {

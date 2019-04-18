@@ -12,12 +12,12 @@ interface Props {
 interface State {
   checked: boolean
 }
+
 export default class TodoItem extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {checked: false}
   }
-
   
   updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.props.updateTodo(e.target.value, this.props.todo.id)
@@ -27,7 +27,6 @@ export default class TodoItem extends React.Component<Props, State> {
     this.setState({checked: !this.state.checked})
   }
 
-
   render() {
     const { 
       todo: { id, completed, title },
@@ -35,7 +34,6 @@ export default class TodoItem extends React.Component<Props, State> {
       checkTodo
     } = this.props
 
-    console.log("check", completed)
     return (
       <div className="containerItem">
         <input type="checkbox" className="checkbox" checked={completed} onChange={() => checkTodo(id)} /> 
